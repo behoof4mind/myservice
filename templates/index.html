@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{.AppName}} - {{.AppVer}}</title>
+    <link rel="icon" href="favicon.ico" sizes="32x32">
+    <link rel="icon" type="image/png" href="../public/favicon.ico"/>
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="container p-3 mt-3">
+        <div class="col-12"></div>
+    </div>
+
+    <div class="container p-3 mt-3">
+        <div class="row">
+            <div class="col-4"></div>
+            <div class="col-4">
+                <div class="d-flex justify-content-center">
+                <h4>Myservice users</h4>
+                </div>
+            </div>
+            <div class="col-4"></div>
+        </div>
+    </div>
+
+    <div class="container p-3 mt-3">
+        <div class="row">
+            <div class="col-4"></div>
+            <div class="col-3">
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" name="user_search" id="user_search" placeholder="Username" aria-label="Username" aria-describedby="basic-addon2" maxlength="10">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="button"onclick="SearchUserModal()">Search</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-2 pl-10">
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" onclick="ShowAddUserModal()">Add user</button>
+            </div>
+            <div class="col-3"></div>
+        </div>
+    </div>
+    <div id="AddUserModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="AddUserModalTitle" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <form enctype="multipart/form-data" id="add_user_form" accept-charset="utf-8">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="AddUserModalTitle">Add new user</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                        <div class="modal-body">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-5 pr-0">
+                                        <div class="input-group">
+                                            <input type="text" pattern="[A-Za-z0-9\-_\.]{6,20}" name="username" id="username" class="form-control" placeholder="Username" aria-label="username" aria-describedby="basic-addon1" required="true" maxlength="20">
+                                        </div>
+                                    </div>
+                                    <div class="col-7">
+                                        <div class="input-group">
+                                            <input type="email" name="email" id="email" pattern=".+@.+" class="form-control" placeholder="username@mail.com" aria-label="email" aria-describedby="basic-addon1" required="true" maxlength="50">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="btn" class="btn btn-primary" type=submit>Add</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div id="SearchUserModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="SearchUserModalTitle" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <form enctype="multipart/form-data" id="search_user_form" accept-charset="utf-8">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="SearchUserModalTitle">Search results</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        ...
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="closeSearchSenderModalBtn" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div id="NotifyModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="AddUserModalTitle" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    User added
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        function ShowAddUserModal() {
+            $('#AddUserModal').modal('show');
+        }
+        function SearchUserModal() {
+            // e.preventDefault();
+            // $('#SearchUserModal').modal('show');
+            search_user();
+        }
+        $("#add_user_form").submit(function (e) {
+            // e.preventDefault();
+            add_user();
+        })
+        function search_user() {
+            var search_val = document.getElementById('user_search').value;
+            // var data = JSON.stringify({"name": username, "email": email});
+            $.ajax({
+                url: '/api/v1/users?name='+search_val,
+                method: 'get',
+                timeout: 5000,
+                // data: data,
+                dataType: 'html',
+                statusCode: {
+                    403: function (r) {
+                        // $("#NotifyModal").modal("show");
+                        // $("#add_user_form").trigger("reset");
+                        // $("#changing_number_modal").modal("hide");
+                        // $("#logFormBody").html(r.responseText);
+                        // $('#logForm').modal('show');
+                    },
+                    500: function (r) {
+                        // $("#NotifyModal").modal("show");
+                        // $("#add_user_form").trigger("reset");
+                        // $("#changing_number_modal").modal("hide");
+                        // $("#logFormBody").html(r.responseText);
+                        // $('#logForm').modal('show');
+                    },
+                    200: function (r) {
+                        alert(r)
+                        // window.location.replace("/");
+                    }
+                }
+                })
+            }
+
+        function add_user(){
+            var username = document.getElementById('username').value;
+            var email = document.getElementById('email').value;
+            // alert(username + email)
+            var data = JSON.stringify({"name": username, "email": email});
+            $.ajax({
+                url: '/api/v1/users',
+                method: 'post',
+                timeout: 5000,
+                data: data,
+                dataType: 'html',
+                statusCode:{
+                    403:function(r){
+                        $("#NotifyModal").modal("show");
+                        $("#add_user_form").trigger("reset");
+                        $("#changing_number_modal").modal("hide");
+                        $("#logFormBody").html(r.responseText);
+                        $('#logForm').modal('show');
+                    },
+                    500:function(r){
+                        $("#NotifyModal").modal("show");
+                        $("#add_user_form").trigger("reset");
+                        $("#changing_number_modal").modal("hide");
+                        $("#logFormBody").html(r.responseText);
+                        $('#logForm').modal('show');
+                    },
+                    200:function(r){
+                        $('#AddUserModal').modal('toggle');
+                        // window.location.replace("/");
+                        $("#NotifyModal").modal("show");
+                        setTimeout(() => { $("#NotifyModal").modal("hide"); }, 2000);
+                        // window.location.replace("/");
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>
