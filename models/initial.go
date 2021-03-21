@@ -28,7 +28,7 @@ func init() {
 	}
 	logrus.Printf("Applied %d migrations!\n", n)
 
-	Db, err = sqlx.Connect("mysql", "root:mysqlpass@(localhost:3306)/myservice")
+	Db, err = sqlx.Connect("mysql", environment.E.DB_USERNAME+":"+environment.E.DB_PASSWORD+"@("+environment.E.DB_SERVER+":"+environment.E.DB_PORT+")/myservice?parseTime=true")
 	if err != nil {
 		logrus.Fatalf("Fail to connect to database: %v", err)
 	}
