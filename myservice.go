@@ -27,8 +27,8 @@ func main() {
 	})
 	m.Use(renders.Renderer(
 		renders.Options{
-			Directory:  "templates",
-			Extensions: []string{".tmpl", ".html"},
+			Directory:       "templates",
+			Extensions:      []string{".tmpl", ".html"},
 			Charset:         "UTF-8",
 			IndentJSON:      true,
 			IndentXML:       true,
@@ -38,7 +38,7 @@ func main() {
 	m.Group("/api/v1/users", func() {
 		m.Combo("").
 			Get(api.GetUser).
-		  Post(api.AddUser)
+			Post(api.AddUser)
 	})
 	m.Run()
 }

@@ -1,6 +1,5 @@
 package models
 
-
 type Users struct {
 	User []Users
 }
