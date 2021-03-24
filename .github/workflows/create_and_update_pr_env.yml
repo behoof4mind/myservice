@@ -12,6 +12,13 @@ jobs:
       AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
       BRANCH_NAME: ${{ github.head_ref }}
     steps:
+      - uses: mshick/add-pr-comment@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          message: |
+            **Hello MASTER**
+          allow-repeats: true
       - uses: hashicorp/setup-terraform@v1
         with:
           terraform_version: 0.14.8
@@ -104,10 +111,10 @@ jobs:
 #        runs:
 #          using: "node12"
 #          main: "lib/main.js"
-      - run: node .github/actions/comment.js
-        env:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          issue_number: ${{ github.event.pull_request.number }}
-          repo: ${{ github.event.repository.name }}
-          owner: ${{ github.repository_owner }}
-          website_link: ${{ steps.terraform.outputs.tf_actions_output }}
+#      - run: node .github/actions/comment.js
+#        env:
+#          github_token: ${{ secrets.GITHUB_TOKEN }}
+#          issue_number: ${{ github.event.pull_request.number }}
+#          repo: ${{ github.event.repository.name }}
+#          owner: ${{ github.repository_owner }}
+#          website_link: ${{ steps.terraform.outputs.tf_actions_output }}
