@@ -23,7 +23,7 @@ jobs:
         run: terraform init -backend-config="bucket=terraform-my-service-state" -backend-config="key=terraform-test.tfstate" -backend-config="dynamodb_table=terraform-my-service-state-test" -backend-config="encrypt=true"
         working-directory: ./terraform
       - name: Terraform Destroy
-        id: init
+        id: destroy
         run: terraform destroy
         working-directory: ./terraform
       - uses: actions/github-script@0.9.0
