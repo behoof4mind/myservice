@@ -31,8 +31,8 @@ jobs:
           tf_actions_version: 0.14.8
           tf_actions_subcommand: 'destroy'
           args:
-            '-var="is_temp_env=true"'
-            '-var="env_prefix=test"'
+            -var="is_temp_env=true"
+            -var="env_prefix=test"
       - name: Tell PR that we have destroyed the thing
         uses: thollander/actions-comment-pull-request@master
         with:
