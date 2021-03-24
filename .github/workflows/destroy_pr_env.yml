@@ -9,32 +9,36 @@ jobs:
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
       BRANCH_NAME: ${{ github.head_ref }}
     steps:
+      - uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 0.14.8
+      - uses: actions/checkout@v2
       - name: Checkout
         uses: actions/checkout@v1
+      - name: Terraform Init
+        id: init
+        run: terraform init -backend-config="bucket=terraform-my-service-state" -backend-config="key=terraform-test.tfstate" -backend-config="dynamodb_table=terraform-my-service-state-test" -backend-config="encrypt=true"
+        working-directory: ./terraform
+      - name: Terraform Destroy
+        id: init
+        run: terraform destroy
+        working-directory: ./terraform
+      - uses: actions/github-script@0.9.0
+        env:
+          PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
         with:
-          ref: ${{ github.head_ref }}
-      - name: 'Terraform Init'
-        uses: hashicorp/setup-terraform@v1
-        with:
-          tf_actions_version: 0.14.8
-          tf_actions_subcommand: 'init'
-          args:
-            -backend-config="bucket=terraform-my-service-state"
-            -backend-config="key=terraform-test.tfstate"
-            -backend-config="dynamodb_table=terraform-my-service-state-test"
-            -backend-config="encrypt=true"
-      - name: 'Terraform Destroy'
-        uses: hashicorp/setup-terraform@v1
-        with:
-          tf_actions_version: 0.14.8
-          tf_actions_subcommand: 'destroy'
-          args:
-            -var="is_temp_env=true"
-            -var="env_prefix=test"
-      - name: Tell PR that we have destroyed the thing
-        uses: thollander/actions-comment-pull-request@master
-        with:
-          message: 'Temporary environment now destroyed'
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const output = `#### Temporary environment now destroyed
+
+            *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`, Workflow: \`${{ github.workflow }}\`*`;
+
+            github.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: output
+            })
