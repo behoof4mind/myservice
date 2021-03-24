@@ -40,7 +40,7 @@ jobs:
         with:
           tf_actions_version: 0.14.8
           tf_actions_subcommand: 'get'
-          args: '-update'
+          args: '-update ./terraform'
       - name: Terraform Init
         uses: hashicorp/terraform-github-actions@master
         with:
