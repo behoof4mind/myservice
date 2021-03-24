@@ -14,7 +14,6 @@ jobs:
     steps:
       - uses: hashicorp/setup-terraform@v1
         with:
-          terraform_wrapper: false
           terraform_version: 0.14.8
       - uses: actions/checkout@v2
       - name: Checkout
@@ -66,6 +65,13 @@ jobs:
       - name: Terraform Output
         id: get_url
         run: terraform output myservice_lb
+      - name: Trim Output
+        uses: frabert/replace-string-action@v1.1
+        id: trim
+        with:
+          pattern: '/(\n+)/'
+          string: '${{ steps.get_url.outputs.stdout }}'
+          replace-with: ''
       - uses: actions/github-script@0.9.0
         env:
           PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
@@ -77,11 +83,7 @@ jobs:
             #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
             #### Terraform Validation 🤖${{ steps.validate.outputs.stdout }}
             #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
-            #### Myservice URL: \`${{ steps.get_url.outputs.value }}\`
-            #### Myservice URL: \`${{ steps.get_url.outputs.stdout }}\`
-            #### Myservice URL: \`${{ steps.apply.outputs.value }}\`
-            #### Myservice URL: \`${{ steps.apply.outputs.stdout }}\`
-
+            #### Myservice URL: \`${{ steps.trim.outputs.replaced }}:${{ env.myservice_lb }}${{ env.myservice_db }}\`
 
             <details><summary>Show Plan</summary>
 
