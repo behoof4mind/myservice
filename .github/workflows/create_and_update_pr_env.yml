@@ -63,8 +63,8 @@ jobs:
         run: terraform apply tf.plan
         working-directory: ./terraform
       - name: Terraform Output
-          id: get_url
-          run: terraform output myservice_lb
+        id: get_url
+        run: terraform output myservice_lb
       - uses: actions/github-script@0.9.0
         env:
           PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
