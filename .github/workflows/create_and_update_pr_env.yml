@@ -1,0 +1,67 @@
+on:
+  pull_request:
+    types: [reopened, opened, synchronize, edited]
+
+name: Create PR Env
+jobs:
+  create_or_update_pr_env:
+    runs-on: ubuntu-latest
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+      BRANCH_NAME: ${{ github.head_ref }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: Install Dependencies
+        run: yarn
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: Install Dependencies
+        run: yarn
+      - name: Build Site
+        run: yarn build
+      - name: 'Terraform Init'
+        uses: hashicorp/terraform-github-actions@master
+        with:
+          tf_actions_version: 0.14.8
+          tf_actions_subcommand: 'init'
+          args:
+            '-backend-config="bucket=terraform-my-service-state"'
+            '-backend-config="key=terraform-test.tfstate"'
+            '-backend-config="dynamodb_table=terraform-my-service-state-test"'
+            '-backend-config="encrypt=true"'
+      - name: Terraform Plan
+        uses: hashicorp/terraform-github-actions@master
+        with:
+          tf_actions_version: 0.14.8
+          tf_actions_subcommand: 'plan'
+          args:
+            '-var="is_temp_env=true"'
+            '-var="env_prefix=test"'
+            '-var="max_ec2_instances=1"'
+            '-var="min_ec2_instances=1"'
+            '-var="mysql_username=root"'
+            '-var="mysql_password={{ secrets.DB_PASSWORD }}"'
+            '-out tf.plan'
+      - name: Terraform Apply
+        uses: hashicorp/terraform-github-actions@master
+        with:
+          tf_actions_version: 0.14.8
+          tf_actions_subcommand: 'apply'
+          args: 'tf.plan'
+      - name: Terraform Output
+        id: terraform
+        uses: hashicorp/terraform-github-actions@master
+        with:
+          tf_actions_version: 0.14.8
+          tf_actions_subcommand: 'output'
+          args: 'website'
+      - run: node .github/actions/comment.js
+        env:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          issue_number: ${{ github.event.pull_request.number }}
+          repo: 'myservice'
+          owner: ${{ github.repository_owner }}
+          website_link: ${{ steps.terraform.outputs.tf_actions_output }}
