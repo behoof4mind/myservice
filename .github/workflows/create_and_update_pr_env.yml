@@ -65,13 +65,7 @@ jobs:
       - name: Terraform Output
         id: get_url
         run: terraform output myservice_lb
-      - name: Trim Output
-        uses: frabert/replace-string-action@v1.1
-        id: trim
-        with:
-          pattern: '/(\n+)/'
-          string: '${{ steps.get_url.outputs.stdout }}'
-          replace-with: ''
+      - run: echo ${{ steps.get_url.outputs.stdout }}
       - uses: actions/github-script@0.9.0
         env:
           PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
