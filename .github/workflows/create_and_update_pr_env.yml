@@ -32,7 +32,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: true
-          tags: DOCKERHUB_USERNAME/${{ github.event.repository.name }}:test
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:test
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
       - name: 'Terraform Init'
