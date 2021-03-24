@@ -35,13 +35,18 @@ jobs:
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:test
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
-#      - name: Setup Terraform variables
-#          working-directory: ./terraform
-#          id: vars
-#          run: |-
-#            cat > pipeline.auto.tfvars <<EOF
-#            image_tag = "${{ github.sha }}"
-#            EOF
+      - name: Setup Terraform variables
+        working-directory: ./terraform
+        id: vars
+        run: |-
+          cat > pipeline.auto.tfvars <<EOF
+          TF_VAR_env_prefix: test
+          TF_VAR_is_temp_env: true
+          TF_VAR_max_ec2_instances: 1
+          TF_VAR_min_ec2_instances: 1
+          TF_VAR_mysql_username: root
+          TF_VAR_mysql_password: "${{ secrets.DB_PASSWORD }}"
+          EOF
       - name: Terraform fmt
         id: fmt
         run: terraform fmt -check
