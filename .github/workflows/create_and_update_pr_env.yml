@@ -67,10 +67,8 @@ jobs:
         working-directory: ./terraform
         run: terraform output
       - run: echo ${{ steps.get_url.outputs.stdout }}
-      - run: echo ${{ steps.apply.outputs.stdout }}
-      - run: echo ${{ steps.plan.outputs.stdout }}
-
-
+      - run: echo ${{ steps.get_url.outputs.stdout.myservice_lb }}
+      - run: echo ${{ steps.get_url.outputs.stdout.myservice_db }}
       - uses: actions/github-script@0.9.0
         env:
           PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
