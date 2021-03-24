@@ -37,7 +37,7 @@ jobs:
         run: echo ${{ steps.docker_build.outputs.digest }}
       - name: Terraform Get
         uses: hashicorp/terraform-github-actions@master
-        working-directory: ./terraform
+        working-directory: terraform
         with:
           tf_actions_version: 0.14.8
           tf_actions_subcommand: 'get'
@@ -53,7 +53,7 @@ jobs:
             -backend-config="encrypt=true"
       - name: Terraform Plan
         uses: hashicorp/terraform-github-actions@master
-        working-directory: ./terraform
+        working-directory: terraform
         with:
           tf_actions_version: 0.14.8
           tf_actions_subcommand: 'plan'
@@ -67,7 +67,7 @@ jobs:
          TF_VAR_mysql_password: ${{ secrets.DB_PASSWORD }}
       - name: Terraform Apply
         uses: hashicorp/terraform-github-actions@master
-        working-directory: ./terraform
+        working-directory: terraform
         with:
           tf_actions_version: 0.14.8
           tf_actions_subcommand: 'apply'
@@ -75,7 +75,7 @@ jobs:
       - name: Terraform Output
         id: terraform
         uses: hashicorp/terraform-github-actions@master
-        working-directory: ./terraform
+        working-directory: terraform
         with:
           tf_actions_version: 0.14.8
           tf_actions_subcommand: 'output'
