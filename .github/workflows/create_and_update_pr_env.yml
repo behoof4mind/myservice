@@ -35,11 +35,6 @@ jobs:
 #          tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:test
 #      - name: Image digest
 #        run: echo ${{ steps.docker_build.outputs.digest }}
-      - name: Terraform validate
-        id: validate
-        run: terraform validate
-        working-directory: ./terraform
-        continue-on-error: true
       - name: Terraform fmt
         id: fmt
         run: terraform fmt -check
@@ -59,6 +54,11 @@ jobs:
           max_ec2_instances=1
           min_ec2_instances=1
           EOF
+      - name: Terraform validate
+        id: validate
+        run: terraform validate
+        working-directory: ./terraform
+        continue-on-error: true
       - name: Terraform Plan
         id: plan
         run: terraform plan -out tf.plan
