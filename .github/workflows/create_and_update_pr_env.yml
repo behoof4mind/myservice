@@ -51,6 +51,13 @@ jobs:
         id: init
         run: terraform init -backend-config="bucket=terraform-my-service-state" -backend-config="key=terraform-test.tfstate" -backend-config="dynamodb_table=terraform-my-service-state-test" -backend-config="encrypt=true"
         working-directory: ./terraform
+        env:
+          TF_VAR_env_prefix: test
+          TF_VAR_is_temp_env: true
+          TF_VAR_max_ec2_instances: 1
+          TF_VAR_min_ec2_instances: 1
+          TF_VAR_mysql_username: root
+          TF_VAR_mysql_password: ${{ secrets.DB_PASSWORD }}
       - name: Terraform Plan
         id: plan
         run: terraform plan -out tf.plan
