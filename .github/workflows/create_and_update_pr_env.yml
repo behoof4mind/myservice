@@ -77,15 +77,10 @@ jobs:
             #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
             #### Terraform Validation 🤖${{ steps.validate.outputs.stdout }}
             #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
-            #### Myservice URL: \`${{ steps.get_url.outputs.myservice_lb }}\`
-            #### Myservice URL: \`${{ steps.apply.outputs.myservice_lb }}\`
+            #### Myservice URL: \`${{ steps.get_url.outputs }}\`
             #### Myservice URL: \`${{ steps.apply.outputs }}\`
-            #### Myservice URL: \`${{ steps.apply.outputs.stdout }}\`
-            #### Myservice URL: \`${{ steps.apply }}\`
-            #### Myservice URL: \`${{ steps.apply.outputs.value }}\`
-            #### Myservice URL: \`${{ steps.apply.value }}\`
-            #### Myservice URL: \`${{ steps.apply.stdout.value }}\`
-            #### Myservice URL: \`${{ steps.apply.outputs.myservice_lb.stdout }}\`
+            #### Myservice URL: \`${{ steps.get_url.outputs.stdout }}\`
+            #### Myservice URL: \`${{ steps.apply.outputs.myservice_lb }}\`
 
 
             <details><summary>Show Plan</summary>
