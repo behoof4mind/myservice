@@ -35,7 +35,13 @@ jobs:
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:test
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
-      - name: 'Terraform Init'
+      - name: Terraform Get
+        uses: hashicorp/terraform-github-actions@master
+        with:
+          tf_actions_version: 0.14.8
+          tf_actions_subcommand: 'get'
+          args: '-update'
+      - name: Terraform Init
         uses: hashicorp/terraform-github-actions@master
         with:
           tf_actions_version: 0.14.8
