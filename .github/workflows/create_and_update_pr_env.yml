@@ -56,12 +56,10 @@ jobs:
         id: vars
         run: |-
           cat > pipeline.auto.tfvars <<EOF
-          env_prefix=test
+          env_prefix="test"
           is_temp_env=true
           max_ec2_instances=1
           min_ec2_instances=1
-          mysql_username=root
-          mysql_password=${{ secrets.DB_PASSWORD }}
           EOF
       - name: Terraform Plan
         id: plan
