@@ -43,11 +43,12 @@ jobs:
         id: init
         run: terraform init
         working-directory: ./terraform
-        args:
-          -backend-config="bucket=terraform-my-service-state"
-          -backend-config="key=terraform-test.tfstate"
-          -backend-config="dynamodb_table=terraform-my-service-state-test"
-          -backend-config="encrypt=true"
+        with:
+          args:
+            -backend-config="bucket=terraform-my-service-state"
+            -backend-config="key=terraform-test.tfstate"
+            -backend-config="dynamodb_table=terraform-my-service-state-test"
+            -backend-config="encrypt=true"
 #      - name: Terraform Init
 #        with:
 #          terraform_version: 0.14.8
