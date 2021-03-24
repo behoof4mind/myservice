@@ -48,8 +48,8 @@ jobs:
         working-directory: ./terraform
         continue-on-error: true
       - name: Terraform Init
-        id: init -backend-config="bucket=terraform-my-service-state" -backend-config="key=terraform-test.tfstate" -backend-config="dynamodb_table=terraform-my-service-state-test" -backend-config="encrypt=true"
-        run: terraform init
+        id: init
+        run: terraform init -backend-config="bucket=terraform-my-service-state" -backend-config="key=terraform-test.tfstate" -backend-config="dynamodb_table=terraform-my-service-state-test" -backend-config="encrypt=true"
         working-directory: ./terraform
 #      - name: Terraform Init
 #        with:
