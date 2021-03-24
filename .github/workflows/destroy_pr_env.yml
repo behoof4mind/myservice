@@ -18,7 +18,8 @@ jobs:
       - uses: actions/checkout@v2
       - name: Checkout
         uses: actions/checkout@v2
-        ref: 'test'
+        with:
+          ref: 'test'
       - name: Terraform Init
         id: init
         run: terraform init -backend-config="bucket=terraform-my-service-state" -backend-config="key=terraform-test.tfstate" -backend-config="dynamodb_table=terraform-my-service-state-test" -backend-config="encrypt=true"
