@@ -35,6 +35,11 @@ jobs:
 #          tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:test
 #      - name: Image digest
 #        run: echo ${{ steps.docker_build.outputs.digest }}
+      - name: Terraform validate
+        id: validate
+        run: terraform validate
+        working-directory: ./terraform
+        continue-on-error: true
       - name: Terraform fmt
         id: fmt
         run: terraform fmt -check
@@ -76,9 +81,9 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const output = `#### \`${{ steps.fmt.outcome }}\` Terraform Format and Style
+            const output = \`${{ steps.validate.outputs.stdout }}\` Terraform Validation
+            ####  \`${{ steps.fmt.outcome }}\` Terraform Format and Style
             #### ️\`${{ steps.init.outcome }}\` Terraform Initialization
-            #### \`${{ steps.validate.outputs.stdout }}\` Terraform Validation
             #### \`${{ steps.plan.outcome }}\` Terraform Plan
             #### Please check the service here: http://${{ fromJSON(steps.get_url.outputs.stdout) }}
 
