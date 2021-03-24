@@ -50,7 +50,7 @@ jobs:
         with:
           tf_actions_version: 0.14.8
           tf_actions_subcommand: 'plan'
-          args: '-out tf.plan'
+          args: '-out tf.plan ./terraform'
         env:
          TF_VAR_env_prefix: test
          TF_VAR_is_temp_env: true
