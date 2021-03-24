@@ -77,11 +77,14 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
+            var someStr = ${{ steps.get_url.outputs.stdout }}
+            var newStr = JSON.parse(someStr);
+
             const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
             #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
             #### Terraform Validation 🤖${{ steps.validate.outputs.stdout }}
             #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
-            #### Myservice URL: http://${{ steps.get_url.outputs.stdout }}.replace(/['"]+/g, '')
+            #### Myservice URL: http://${{ steps.get_url.outputs.stdout }}
 
             <details><summary>Show Plan</summary>
 
@@ -95,7 +98,7 @@ jobs:
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: output
+              body: newStr
             })
 
 
