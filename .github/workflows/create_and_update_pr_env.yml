@@ -76,10 +76,10 @@ jobs:
       - name: Terraform Output
         id: terraform
         uses: hashicorp/terraform-github-actions@master
-        working-directory: terraform
         with:
           tf_actions_version: 0.14.8
           tf_actions_subcommand: 'output'
+          tf_actions_working_dir: './terraform'
           args: 'website'
       - run: node .github/actions/comment.js
         env:
