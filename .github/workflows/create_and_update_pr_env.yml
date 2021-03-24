@@ -12,56 +12,56 @@ jobs:
       AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
       BRANCH_NAME: ${{ github.head_ref }}
     steps:
-#      - uses: hashicorp/setup-terraform@v1
-#        with:
-#          terraform_version: 0.14.8
-#      - uses: actions/checkout@v2
-#      - name: Checkout
-#        uses: actions/checkout@v1
-#      - name: Set up QEMU
-#        uses: docker/setup-qemu-action@v1
-#      - name: Set up Docker Buildx
-#        uses: docker/setup-buildx-action@v1
-#      - name: Login to DockerHub
-#        uses: docker/login-action@v1
-#        with:
-#          username: ${{ secrets.DOCKERHUB_USERNAME }}
-#          password: ${{ secrets.DOCKERHUB_TOKEN }}
-#      - name: Build and push
-#        id: docker_build
-#        uses: docker/build-push-action@v2
-#        with:
-#          push: true
-#          tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:test
-#      - name: Image digest
-#        run: echo ${{ steps.docker_build.outputs.digest }}
-#      - name: Terraform fmt
-#        id: fmt
-#        run: terraform fmt -check
-#        working-directory: ./terraform
-#        continue-on-error: true
-#      - name: Terraform Init
-#        id: init
-#        run: terraform init -backend-config="bucket=terraform-my-service-state" -backend-config="key=terraform-test.tfstate" -backend-config="dynamodb_table=terraform-my-service-state-test" -backend-config="encrypt=true"
-#        working-directory: ./terraform
-#      - name: Setup Terraform variables
-#        working-directory: ./terraform
-#        id: vars
-#        run: |-
-#          cat > pipeline.auto.tfvars <<EOF
-#          env_prefix="test"
-#          is_temp_env=true
-#          max_ec2_instances=1
-#          min_ec2_instances=1
-#          EOF
-#      - name: Terraform Plan
-#        id: plan
-#        run: terraform plan -out tf.plan
-#        working-directory: ./terraform
-#      - name: Terraform Apply
-#        id: apply
-#        run: terraform apply tf.plan
-#        working-directory: ./terraform
+      - uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 0.14.8
+      - uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Build and push
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:test
+      - name: Image digest
+        run: echo ${{ steps.docker_build.outputs.digest }}
+      - name: Terraform fmt
+        id: fmt
+        run: terraform fmt -check
+        working-directory: ./terraform
+        continue-on-error: true
+      - name: Terraform Init
+        id: init
+        run: terraform init -backend-config="bucket=terraform-my-service-state" -backend-config="key=terraform-test.tfstate" -backend-config="dynamodb_table=terraform-my-service-state-test" -backend-config="encrypt=true"
+        working-directory: ./terraform
+      - name: Setup Terraform variables
+        working-directory: ./terraform
+        id: vars
+        run: |-
+          cat > pipeline.auto.tfvars <<EOF
+          env_prefix="test"
+          is_temp_env=true
+          max_ec2_instances=1
+          min_ec2_instances=1
+          EOF
+      - name: Terraform Plan
+        id: plan
+        run: terraform plan -out tf.plan
+        working-directory: ./terraform
+      - name: Terraform Apply
+        id: apply
+        run: terraform apply tf.plan
+        working-directory: ./terraform
 
 
 
@@ -116,6 +116,7 @@ jobs:
 #          owner: ${{ github.repository_owner }}
 #          website_link: ${{ steps.terraform.outputs.tf_actions_output }}
       - name: Call terraform output
+        working-directory: ./terraform
         run: |
           output=$(terraform output myservice_lb)
           echo $output
