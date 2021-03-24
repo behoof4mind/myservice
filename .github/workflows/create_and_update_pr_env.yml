@@ -83,7 +83,7 @@ jobs:
             #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
             #### Terraform Validation 🤖${{ steps.validate.outputs.stdout }}
             #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
-            #### Myservice URL: \`${{ steps.trim.outputs.replaced }}:${{ env.myservice_lb }}${{ env.myservice_db }}\`
+            #### Myservice URL: \`${{ steps.trim.outputs.replaced }}\`
 
             <details><summary>Show Plan</summary>
 
