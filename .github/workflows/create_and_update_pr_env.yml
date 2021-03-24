@@ -50,7 +50,14 @@ jobs:
         with:
           tf_actions_version: 0.14.8
           tf_actions_subcommand: 'plan'
-          args: '-var="is_temp_env=true" -var="env_prefix=test" -var="mysql_username=root" -var="mysql_password={{ secrets.DB_PASSWORD }}" -out tf.plan'
+          args: '-out tf.plan'
+        env:
+         TF_VAR_env_prefix: test
+         TF_VAR_is_temp_env: true
+         TF_VAR_max_ec2_instances: 1
+         TF_VAR_min_ec2_instances: 1
+         TF_VAR_mysql_username: root
+         TF_VAR_mysql_password: {{ secrets.DB_PASSWORD }}
       - name: Terraform Apply
         uses: hashicorp/terraform-github-actions@master
         with:
