@@ -12,13 +12,6 @@ jobs:
       AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
       BRANCH_NAME: ${{ github.head_ref }}
     steps:
-      - uses: mshick/add-pr-comment@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          message: |
-            **Hello MASTER**
-          allow-repeats: true
 #      - uses: hashicorp/setup-terraform@v1
 #        with:
 #          terraform_version: 0.14.8
@@ -122,3 +115,15 @@ jobs:
 #          repo: ${{ github.event.repository.name }}
 #          owner: ${{ github.repository_owner }}
 #          website_link: ${{ steps.terraform.outputs.tf_actions_output }}
+      - name: Call terraform output
+        run: |
+          output=$(terraform output myservice_lb)
+          echo $output
+          echo "myservice_url=${output}" >> $GITHUB_ENV
+      - uses: mshick/add-pr-comment@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          message: |
+            **Hi, seems like your build finished well. Check myservice here ${{ env.myservice_url }} **
+          allow-repeats: true
