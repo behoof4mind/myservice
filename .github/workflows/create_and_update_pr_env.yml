@@ -65,11 +65,11 @@ jobs:
       - name: Terraform Output
         id: get_db
         working-directory: ./terraform
-        run: terraform output myservice_db -json | jq -r .myservice_db.value
+        run: terraform output myservice_db
       - name: Terraform Output
         id: get_url
         working-directory: ./terraform
-        run: terraform output myservice_lb -json | jq -r .myservice_lb.value
+        run: terraform output myservice_lb
       - uses: actions/github-script@0.9.0
         env:
           PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
@@ -81,7 +81,7 @@ jobs:
             #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
             #### Terraform Validation 🤖${{ steps.validate.outputs.stdout }}
             #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
-            #### Myservice URL: http://${{ steps.get_url.outputs.stdout }}
+            #### Myservice URL: http://${{ steps.get_url.outputs.stdout }}.replace(/['"]+/g, '')
 
             <details><summary>Show Plan</summary>
 
