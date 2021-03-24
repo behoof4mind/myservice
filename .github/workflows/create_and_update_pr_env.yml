@@ -35,20 +35,22 @@ jobs:
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:test
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
+#      - name: Setup Terraform variables
+#          working-directory: ./terraform
+#          id: vars
+#          run: |-
+#            cat > pipeline.auto.tfvars <<EOF
+#            image_tag = "${{ github.sha }}"
+#            EOF
       - name: Terraform fmt
         id: fmt
         run: terraform fmt -check
+        working-directory: ./terraform
         continue-on-error: true
       - name: Terraform Init
-        id: init
+        id: init -backend-config="bucket=terraform-my-service-state" -backend-config="key=terraform-test.tfstate" -backend-config="dynamodb_table=terraform-my-service-state-test" -backend-config="encrypt=true"
         run: terraform init
         working-directory: ./terraform
-        with:
-          args:
-            -backend-config="bucket=terraform-my-service-state"
-            -backend-config="key=terraform-test.tfstate"
-            -backend-config="dynamodb_table=terraform-my-service-state-test"
-            -backend-config="encrypt=true"
 #      - name: Terraform Init
 #        with:
 #          terraform_version: 0.14.8
