@@ -44,13 +44,6 @@ jobs:
         id: init
         run: terraform init -backend-config="bucket=terraform-my-service-state" -backend-config="key=terraform-test.tfstate" -backend-config="dynamodb_table=terraform-my-service-state-test" -backend-config="encrypt=true"
         working-directory: ./terraform
-#        env:
-#          TF_VAR_env_prefix: test
-#          TF_VAR_is_temp_env: true
-#          TF_VAR_max_ec2_instances: 1
-#          TF_VAR_min_ec2_instances: 1
-#          TF_VAR_mysql_username: root
-#          TF_VAR_mysql_password: ${{ secrets.DB_PASSWORD }}
       - name: Setup Terraform variables
         working-directory: ./terraform
         id: vars
@@ -65,13 +58,10 @@ jobs:
         id: plan
         run: terraform plan -out tf.plan
         working-directory: ./terraform
-#        env:
-#          TF_VAR_env_prefix: test
-#          TF_VAR_is_temp_env: true
-#          TF_VAR_max_ec2_instances: 1
-#          TF_VAR_min_ec2_instances: 1
-#          TF_VAR_mysql_username: root
-#          TF_VAR_mysql_password: ${{ secrets.DB_PASSWORD }}
+      - name: Terraform Apply
+        id: apply
+        run: terraform apply tf.plan
+        working-directory: ./terraform
 #      - name: Terraform Plan
 #        uses: hashicorp/setup-terraform@v1
 #        with:
@@ -101,10 +91,10 @@ jobs:
 #          tf_actions_subcommand: 'output'
 #          tf_actions_working_dir: './terraform'
 #          args: 'website'
-#      - run: node .github/actions/comment.js
-#        env:
-#          github_token: ${{ secrets.GITHUB_TOKEN }}
-#          issue_number: ${{ github.event.pull_request.number }}
-#          repo: ${GITHUB_REPOSITORY#*/}
-#          owner: ${{ github.repository_owner }}
-#          website_link: ${{ steps.terraform.outputs.tf_actions_output }}
+      - run: node .github/actions/comment.js
+        env:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          issue_number: ${{ github.event.pull_request.number }}
+          repo: ${GITHUB_REPOSITORY#*/}
+          owner: ${{ github.repository_owner }}
+          website_link: ${{ steps.terraform.outputs.tf_actions_output }}
