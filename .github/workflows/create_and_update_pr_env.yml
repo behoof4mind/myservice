@@ -91,7 +91,20 @@ jobs:
 #          tf_actions_subcommand: 'output'
 #          tf_actions_working_dir: './terraform'
 #          args: 'website'
-      - run: node .github/actions/comment.js
+#      - name: "Welcome"
+#        description: "A basic welcome action"
+#        author: "GitHub"
+#        inputs:
+#          welcome-message:
+#            description: "Message to display when a user opens an issue or PR"
+#            default: "Thanks for opening an issue! Make sure you've followed CONTRIBUTING.md"
+#          repo-token:
+#            description: "Token for the repo. Can be passed in using {{ secrets.GITHUB_TOKEN }}"
+#            required: true
+#        runs:
+#          using: "node12"
+#          main: "lib/main.js"
+      - run: node12 .github/actions/comment.js
         env:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           issue_number: ${{ github.event.pull_request.number }}
