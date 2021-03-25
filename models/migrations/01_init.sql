@@ -1,3 +1,3 @@
 -- +migrate Up
-CREATE myservice [IF NOT EXISTS] db_name
+CREATE database IF NOT EXISTS myservice;
 USE myservice;
