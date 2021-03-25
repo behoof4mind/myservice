@@ -22,7 +22,7 @@ func GetUser(r renders.Render, ctx *macaron.Context) {
 	u, err := models.GetUserByName(q[0])
 	if u == nil {
 		logrus.Info("User '" + q[0] + "' not found")
-		r.JSON(404, map[string]interface{}{
+		r.JSON(403, map[string]interface{}{
 			"Error": "User not found"})
 		return
 	}
@@ -32,8 +32,12 @@ func GetUser(r renders.Render, ctx *macaron.Context) {
 			"Error": "Internal problem",
 		})
 	}
-	b, _ := json.Marshal(u)
-	r.Data(200, b)
+	//b, _ := json.Marshal(u)
+	r.JSON(200, map[string]interface{}{
+		"name":       u[0].Name,
+		"email":      u[0].Email,
+		"created_at": u[0].CreatedAt,
+	})
 }
 
 func AddUser(r renders.Render, ctx *macaron.Context) {

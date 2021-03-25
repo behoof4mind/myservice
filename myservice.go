@@ -23,7 +23,7 @@ func main() {
 	m.Use(macaron.Static("public"))
 	m.Use(func(ctx *macaron.Context) {
 		ctx.Data["AppName"] = "Myservice"
-		ctx.Data["AppVer"] = "0.0.1"
+		ctx.Data["AppVer"] = "0.1.0"
 	})
 	m.Use(renders.Renderer(
 		renders.Options{
