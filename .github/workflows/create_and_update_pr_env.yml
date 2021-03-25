@@ -68,10 +68,6 @@ jobs:
         run: terraform apply tf.plan
         working-directory: ./terraform
       - name: Terraform Output
-        id: get_db
-        working-directory: ./terraform
-        run: terraform output myservice_db
-      - name: Terraform Output
         id: get_url
         working-directory: ./terraform
         run: terraform output myservice_lb
