@@ -2,21 +2,13 @@ package main
 
 import (
 	"github.com/go-macaron/renders"
-	"github.com/sirupsen/logrus"
 	_ "github.com/sirupsen/logrus"
 	"gopkg.in/macaron.v1"
 	"myservice/controllers"
 	"myservice/controllers/api"
-	"myservice/models"
 )
 
 func main() {
-
-	uu, err := models.GetUserByName("test1")
-	if err != nil {
-		logrus.Error(err)
-	}
-	logrus.Println(uu[0].Name)
 
 	m := macaron.New()
 	m.Use(macaron.Recovery())
