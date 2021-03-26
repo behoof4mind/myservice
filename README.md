@@ -38,10 +38,10 @@ curl -XGET http://localhost/api/v1/users?name=test2
 
 Thanks for considering contributing! There’s information about how to [get started with Myservice here](CONTRIBUTE.md).
 
-When PR will be created - new AWS est environment will be ready in 20 minutes. You will get link to test web service from github-bot
+When PR will be created - new AWS test environment will be ready in around 20 minutes. You will get link to test web service from github-bot
 in PR comments.
 
-After closing PR by ny reason - test environment will be destroyed
+After closing PR by any reason - test environment will be destroyed
 
 ## License
 
