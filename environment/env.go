@@ -7,8 +7,7 @@ import (
 )
 
 type Environment struct {
-	DB_SERVER   string
-	DB_PORT     string
+	DB_URL      string
 	DB_USERNAME string
 	DB_PASSWORD string
 }
@@ -18,13 +17,9 @@ var E Environment
 func InitEnvVariables() {
 	logrus.Info("Reading environment variables")
 	var env_exist bool
-	E.DB_SERVER, env_exist = os.LookupEnv("DB_SERVER")
+	E.DB_URL, env_exist = os.LookupEnv("DB_URL")
 	if env_exist != true {
-		logrus.Warn("'DB_SERVER' does not exist. Will use `localhost`")
-	}
-	E.DB_PORT, env_exist = os.LookupEnv("DB_PORT")
-	if env_exist != true {
-		logrus.Warn("'DB_PORT' does not exist. Will use `3306`")
+		logrus.Warn("'DB_URL' does not exist. Will use `localhost:3306`")
 	}
 	E.DB_USERNAME, env_exist = os.LookupEnv("DB_USERNAME")
 	if env_exist != true {
@@ -34,5 +29,5 @@ func InitEnvVariables() {
 	if env_exist != true {
 		logrus.Warn("'DB_PASSWORD' does not exist. Will use defailt one")
 	}
-	fmt.Printf("\n######## Environment ########\nDB_SERVER:   %s\nDB_PORT:     %s\nDB_USERNAME: %s\n#############################\n\n", E.DB_SERVER, E.DB_PORT, E.DB_USERNAME)
+	fmt.Printf("\n######## Environment ########\nDB_URL:      %s\nDB_USERNAME: %s\n#############################\n\n", E.DB_URL, E.DB_USERNAME)
 }

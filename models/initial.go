@@ -13,7 +13,7 @@ var Db *sqlx.DB
 
 func init() {
 	environment.InitEnvVariables()
-	db, err := sql.Open("mysql", environment.E.DB_USERNAME+":"+environment.E.DB_PASSWORD+"@("+environment.E.DB_SERVER+":"+environment.E.DB_PORT+")/myservice?parseTime=true")
+	db, err := sql.Open("mysql", environment.E.DB_USERNAME+":"+environment.E.DB_PASSWORD+"@("+environment.E.DB_URL+")/myservice?parseTime=true")
 	if err != nil {
 		logrus.Fatalf("Fail to connect to database: %v", err)
 	}
@@ -27,8 +27,9 @@ func init() {
 		logrus.Fatalf("Fail apply migrations: %v", err)
 	}
 	logrus.Printf("Applied %d migrations!\n", n)
+	db.Close()
 
-	Db, err = sqlx.Connect("mysql", environment.E.DB_USERNAME+":"+environment.E.DB_PASSWORD+"@("+environment.E.DB_SERVER+":"+environment.E.DB_PORT+")/myservice?parseTime=true")
+	Db, err = sqlx.Connect("mysql", environment.E.DB_USERNAME+":"+environment.E.DB_PASSWORD+"@("+environment.E.DB_URL+")/myservice?parseTime=true")
 	if err != nil {
 		logrus.Fatalf("Fail to connect to database: %v", err)
 	}
