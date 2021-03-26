@@ -6,7 +6,7 @@ This is simple app to add and get "users"<br>
 **Frontend:** Bootstrap 4.3.1 + jquery 3.6.0 <br>
 **Build:** Go binary / Docker <br>
 **CI/CD:** GitHub actions <br>
-**Environment:** EC2 instances with ELB + Mysql-RDS
+**Environment:** EC2 instances with ELB + Mysql-RDS ([Infrastructure diagram](myservice_diargam_aws.png))
 
 ### How to start
 1. Specify environment variables - `APP_VERSION`, `DB_URL`, `DB_USERNAME`, `DB_PASSWORD`, `DOCKER_REGISTRY_URL`

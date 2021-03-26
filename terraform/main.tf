@@ -3,7 +3,7 @@ terraform {
 }
 
 module "webserver_cluster" {
-  source            = "github.com/behoof4mind/tf-module-myservice?ref=0.2.50"
+  source            = "github.com/behoof4mind/tf-module-myservice?ref=0.2.51"
   env_prefix        = var.env_prefix
   app_version       = var.app_version
   is_temp_env       = var.is_temp_env
