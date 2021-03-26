@@ -1,6 +1,12 @@
-This is web service example based on Golang.
+# Myservice
 
 ## Overview
+This is simple app to add and get "users"<br>
+**Backend:** Golang with few frameworks: [go-macaron](https://go-macaron.com), [sirupsen/logrus](https://github.com/sirupsen/logrus), [jmoiron/sqlx](https://github.com/jmoiron/sqlx) <br>
+**Frontend:** Bootstrap 4.3.1 + jquery 3.6.0 <br>
+**Build:** Go binary / Docker <br>
+**CI/CD:** GitHub actions <br>
+**Environment:**
 
 ### How to start
 1. Specify environment variables - `APP_VERSION`, `DB_URL`, `DB_USERNAME`, `DB_PASSWORD`, `DOCKER_REGISTRY_URL`
@@ -30,7 +36,7 @@ curl -XGET http://localhost/api/v1/users?name=test2
 
 ## Contributing
 
-Thanks for considering contributing! There’s information about how to [get started with Myservice here](CONTRIBUTING.md).
+Thanks for considering contributing! There’s information about how to [get started with Myservice here](CONTRIBUTE.md).
 
 When PR will be created - new AWS est environment will be ready in 20 minutes. You will get link to test web service from github-bot
 in PR comments.
