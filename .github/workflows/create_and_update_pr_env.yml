@@ -57,7 +57,7 @@ jobs:
           cat > pipeline.auto.tfvars <<EOF
           env_prefix="test"
           is_temp_env=true
-          app_version=${{ steps.previoustag.outputs.tag }}-test
+          app_version="${{ steps.previoustag.outputs.tag }}-test"
           max_ec2_instances=1
           min_ec2_instances=1
           EOF
